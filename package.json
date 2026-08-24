@@ -1,0 +1,36 @@
+{
+  "name": "@managed-oss/signaldeck",
+  "version": "0.1.0",
+  "description": "Plan, approve, publish, and explain multi-channel campaigns from one evidence trail.",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohanarun/signaldeck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/rohanarun/signaldeck/issues"
+  },
+  "homepage": "https://github.com/rohanarun/signaldeck#readme",
+  "engines": {
+    "node": ">=20.11"
+  },
+  "bin": {
+    "signaldeck": "src/cli.mjs",
+    "signaldeck-mcp": "src/mcp.mjs"
+  },
+  "files": [
+    "src",
+    "web",
+    "product-manifest.json",
+    "LICENSE",
+    "README.md",
+    "SECURITY.md",
+    "Dockerfile"
+  ],
+  "scripts": {
+    "start": "node src/web-server.mjs",
+    "test": "node --test --test-concurrency=1",
+    "verify": "node scripts/verify-manifest.mjs && node --test --test-concurrency=1"
+  }
+}

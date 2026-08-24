@@ -1,0 +1,655 @@
+{
+  "schemaVersion": 1,
+  "release": {
+    "productVersion": "0.1.0",
+    "backendRelease": "v0.4.0",
+    "backendCommit": "4ff94afc860109e683c56c3acffedb8a6c233e03",
+    "backendSourceSnapshotSha256": "df03dff119034858ec0a25b1171226ff3539d015318c15b5a2359eab49118dcf",
+    "generatedAt": "2026-08-24T00:00:00.000Z",
+    "generator": "managed-oss-cloud/scripts/generate-product-repositories.mjs"
+  },
+  "product": {
+    "slug": "signaldeck",
+    "command": "signaldeck",
+    "mcpPrefix": "signaldeck",
+    "environmentPrefix": "SIGNALDECK",
+    "name": "SignalDeck",
+    "tagline": "Plan, approve, publish, and explain multi-channel campaigns from one evidence trail.",
+    "repository": "https://github.com/rohanarun/signaldeck",
+    "license": "MIT",
+    "accent": "#6ea8ff",
+    "accentDark": "#285eb5"
+  },
+  "module": {
+    "id": "publish",
+    "category": "Social publishing",
+    "description": "Plan, adapt, approve, schedule, and measure content across connected channels.",
+    "minimumHostedPlan": "starter",
+    "resourceClass": "shared",
+    "recordTypes": [
+      "post",
+      "campaign",
+      "channel",
+      "media"
+    ],
+    "aiCapabilities": [
+      "adapt by channel",
+      "build campaign",
+      "summarize performance"
+    ]
+  },
+  "backend": {
+    "defaultUrl": "https://cloud.getsupers.com",
+    "workspaceEndpoint": "/api/suite/workspace",
+    "actionEndpointPattern": "/api/suite/modules/publish/actions/{actionId}",
+    "authentication": "Bearer API token",
+    "databaseBoundary": "All shared database access and tenant isolation remain behind the managed-oss-cloud API."
+  },
+  "cleanRoom": {
+    "statement": "Original clean-room implementation of the social publishing software category, designed and written independently.",
+    "sourceBoundary": "Public category behavior informed requirements; implementation and product identity are original."
+  },
+  "actions": [
+    {
+      "id": "channel-binding-preview",
+      "moduleId": "publish",
+      "title": "Preview channel binding",
+      "description": "Validate a channel capability manifest without storing provider tokens or calling the provider.",
+      "operation": "read",
+      "recordType": "channel-binding",
+      "requiredFields": [
+        "provider",
+        "accountRef",
+        "capabilities"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "provider",
+          "accountRef",
+          "capabilities"
+        ],
+        "properties": {
+          "provider": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "accountRef": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "capabilities": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 500
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "provider": "federated-social",
+        "accountRef": "brand-main",
+        "capabilities": [
+          "text",
+          "image"
+        ]
+      },
+      "requiredScope": "read",
+      "mcpToolName": "publish_channel_binding_preview",
+      "cliExample": "supersuite action publish channel-binding-preview '{\"provider\":\"federated-social\",\"accountRef\":\"brand-main\",\"capabilities\":[\"text\",\"image\"]}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": false,
+      "backendMcpToolName": "publish_channel_binding_preview",
+      "productMcpToolName": "signaldeck_channel_binding_preview",
+      "productCliExample": "signaldeck action channel-binding-preview '{\"provider\":\"federated-social\",\"accountRef\":\"brand-main\",\"capabilities\":[\"text\",\"image\"]}'"
+    },
+    {
+      "id": "campaign-draft",
+      "moduleId": "publish",
+      "title": "Create campaign brief",
+      "description": "Create a goal, audience, channel, consent, and measurement brief before content exists.",
+      "operation": "command",
+      "recordType": "campaign",
+      "requiredFields": [
+        "name",
+        "goal",
+        "audience",
+        "channelIds",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "name",
+          "goal",
+          "audience",
+          "channelIds",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 160
+          },
+          "goal": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "audience": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "channelIds": {
+            "type": "array",
+            "maxItems": 50,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "name": "Launch week",
+        "goal": "Qualified product visits",
+        "audience": "Existing opt-in customers",
+        "channelIds": [
+          "00000000-0000-4000-8000-000000000100"
+        ],
+        "idempotencyKey": "publish.campaign-draft.sample-0001"
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_campaign_draft",
+      "cliExample": "supersuite action publish campaign-draft '{\"name\":\"Launch week\",\"goal\":\"Qualified product visits\",\"audience\":\"Existing opt-in customers\",\"channelIds\":[\"00000000-0000-4000-8000-000000000100\"],\"idempotencyKey\":\"publish.campaign-draft.sample-0001\"}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_campaign_draft",
+      "productMcpToolName": "signaldeck_campaign_draft",
+      "productCliExample": "signaldeck action campaign-draft '{\"name\":\"Launch week\",\"goal\":\"Qualified product visits\",\"audience\":\"Existing opt-in customers\",\"channelIds\":[\"00000000-0000-4000-8000-000000000100\"],\"idempotencyKey\":\"publish.campaign-draft.sample-0001\"}'"
+    },
+    {
+      "id": "content-variants-propose",
+      "moduleId": "publish",
+      "title": "Propose cited content variants",
+      "description": "Queue channel-aware variants grounded in an approved campaign brief and selected evidence.",
+      "operation": "ai",
+      "recordType": "ai-request-audit",
+      "requiredFields": [
+        "campaignId",
+        "instruction",
+        "evidenceIds",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "instruction",
+          "evidenceIds",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instruction": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "evidenceIds": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "campaignId": "00000000-0000-4000-8000-000000000100",
+        "instruction": "Draft three factual launch angles.",
+        "evidenceIds": [
+          "00000000-0000-4000-8000-000000000101"
+        ],
+        "idempotencyKey": "publish.content-variants-propose.sample-0001"
+      },
+      "requiredScope": "ai",
+      "mcpToolName": "publish_content_variants_propose",
+      "cliExample": "supersuite action publish content-variants-propose '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"instruction\":\"Draft three factual launch angles.\",\"evidenceIds\":[\"00000000-0000-4000-8000-000000000101\"],\"idempotencyKey\":\"publish.content-variants-propose.sample-0001\"}'",
+      "risk": "moderate",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_content_variants_propose",
+      "productMcpToolName": "signaldeck_content_variants_propose",
+      "productCliExample": "signaldeck action content-variants-propose '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"instruction\":\"Draft three factual launch angles.\",\"evidenceIds\":[\"00000000-0000-4000-8000-000000000101\"],\"idempotencyKey\":\"publish.content-variants-propose.sample-0001\"}'"
+    },
+    {
+      "id": "campaign-approve",
+      "moduleId": "publish",
+      "title": "Approve campaign snapshot",
+      "description": "Approve the exact campaign and content snapshot without publishing it.",
+      "operation": "command",
+      "recordType": "campaign",
+      "requiredFields": [
+        "campaignId",
+        "contentHash",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "contentHash",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "contentHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "campaignId": "00000000-0000-4000-8000-000000000100",
+        "contentHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "idempotencyKey": "publish.campaign-approve.sample-0001"
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_campaign_approve",
+      "cliExample": "supersuite action publish campaign-approve '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"contentHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"idempotencyKey\":\"publish.campaign-approve.sample-0001\"}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_campaign_approve",
+      "productMcpToolName": "signaldeck_campaign_approve",
+      "productCliExample": "signaldeck action campaign-approve '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"contentHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"idempotencyKey\":\"publish.campaign-approve.sample-0001\"}'"
+    },
+    {
+      "id": "post-schedule",
+      "moduleId": "publish",
+      "title": "Schedule approved post",
+      "description": "Bind exact approved content to a channel and UTC delivery window with no provider call.",
+      "operation": "command",
+      "recordType": "scheduled-post",
+      "requiredFields": [
+        "campaignId",
+        "channelId",
+        "content",
+        "scheduledAt",
+        "campaignHash",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "channelId",
+          "content",
+          "scheduledAt",
+          "campaignHash",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "channelId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20000
+          },
+          "scheduledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "campaignHash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "campaignId": "00000000-0000-4000-8000-000000000100",
+        "channelId": "00000000-0000-4000-8000-000000000101",
+        "content": "Launch details",
+        "scheduledAt": "2026-08-25T15:00:00.000Z",
+        "campaignHash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "idempotencyKey": "publish.post-schedule.sample-0001"
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_post_schedule",
+      "cliExample": "supersuite action publish post-schedule '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"channelId\":\"00000000-0000-4000-8000-000000000101\",\"content\":\"Launch details\",\"scheduledAt\":\"2026-08-25T15:00:00.000Z\",\"campaignHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"idempotencyKey\":\"publish.post-schedule.sample-0001\"}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_post_schedule",
+      "productMcpToolName": "signaldeck_post_schedule",
+      "productCliExample": "signaldeck action post-schedule '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"channelId\":\"00000000-0000-4000-8000-000000000101\",\"content\":\"Launch details\",\"scheduledAt\":\"2026-08-25T15:00:00.000Z\",\"campaignHash\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"idempotencyKey\":\"publish.post-schedule.sample-0001\"}'"
+    },
+    {
+      "id": "publication-dispatch",
+      "moduleId": "publish",
+      "title": "Dispatch scheduled publication",
+      "description": "Send one exact approved post through a configured provider executor and store its receipt.",
+      "operation": "command",
+      "recordType": "publication-delivery",
+      "requiredFields": [
+        "scheduledPostId",
+        "idempotencyKey",
+        "dryRun"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "scheduledPostId",
+          "idempotencyKey",
+          "dryRun"
+        ],
+        "properties": {
+          "scheduledPostId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          },
+          "dryRun": {
+            "type": "boolean"
+          },
+          "approval": {
+            "type": "object",
+            "required": [
+              "approved",
+              "approvedBy",
+              "approvedAt",
+              "decisionId",
+              "reason"
+            ],
+            "properties": {
+              "approved": {
+                "const": true
+              },
+              "approvedBy": {
+                "type": "string",
+                "format": "uuid"
+              },
+              "approvedAt": {
+                "type": "string",
+                "format": "date-time"
+              },
+              "decisionId": {
+                "type": "string",
+                "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 1000
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "scheduledPostId": "00000000-0000-4000-8000-000000000100",
+        "idempotencyKey": "publish.publication-dispatch.sample-0001",
+        "dryRun": true
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_publication_dispatch",
+      "cliExample": "supersuite action publish publication-dispatch '{\"scheduledPostId\":\"00000000-0000-4000-8000-000000000100\",\"idempotencyKey\":\"publish.publication-dispatch.sample-0001\",\"dryRun\":true}'",
+      "risk": "high",
+      "destructive": false,
+      "externalEffect": true,
+      "idempotent": true,
+      "backendMcpToolName": "publish_publication_dispatch",
+      "productMcpToolName": "signaldeck_publication_dispatch",
+      "productCliExample": "signaldeck action publication-dispatch '{\"scheduledPostId\":\"00000000-0000-4000-8000-000000000100\",\"idempotencyKey\":\"publish.publication-dispatch.sample-0001\",\"dryRun\":true}'"
+    },
+    {
+      "id": "metrics-import",
+      "moduleId": "publish",
+      "title": "Import channel metrics",
+      "description": "Append a provider-attributed metric observation with measurement time and source provenance.",
+      "operation": "command",
+      "recordType": "metric-observation",
+      "requiredFields": [
+        "scheduledPostId",
+        "observedAt",
+        "source",
+        "metrics",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "scheduledPostId",
+          "observedAt",
+          "source",
+          "metrics",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "scheduledPostId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "observedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "source": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "metrics": {
+            "type": "object"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "scheduledPostId": "00000000-0000-4000-8000-000000000100",
+        "observedAt": "2026-08-26T15:00:00.000Z",
+        "source": "provider-export",
+        "metrics": {
+          "views": 120
+        },
+        "idempotencyKey": "publish.metrics-import.sample-0001"
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_metrics_import",
+      "cliExample": "supersuite action publish metrics-import '{\"scheduledPostId\":\"00000000-0000-4000-8000-000000000100\",\"observedAt\":\"2026-08-26T15:00:00.000Z\",\"source\":\"provider-export\",\"metrics\":{\"views\":120},\"idempotencyKey\":\"publish.metrics-import.sample-0001\"}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_metrics_import",
+      "productMcpToolName": "signaldeck_metrics_import",
+      "productCliExample": "signaldeck action metrics-import '{\"scheduledPostId\":\"00000000-0000-4000-8000-000000000100\",\"observedAt\":\"2026-08-26T15:00:00.000Z\",\"source\":\"provider-export\",\"metrics\":{\"views\":120},\"idempotencyKey\":\"publish.metrics-import.sample-0001\"}'"
+    },
+    {
+      "id": "performance-explain",
+      "moduleId": "publish",
+      "title": "Explain campaign performance",
+      "description": "Queue an exposure-aware analysis that cites exact observations and separates facts from hypotheses.",
+      "operation": "ai",
+      "recordType": "ai-request-audit",
+      "requiredFields": [
+        "campaignId",
+        "instruction",
+        "evidenceIds",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "instruction",
+          "evidenceIds",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "instruction": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          },
+          "evidenceIds": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "campaignId": "00000000-0000-4000-8000-000000000100",
+        "instruction": "Explain measured changes without causal overclaiming.",
+        "evidenceIds": [
+          "00000000-0000-4000-8000-000000000101"
+        ],
+        "idempotencyKey": "publish.performance-explain.sample-0001"
+      },
+      "requiredScope": "ai",
+      "mcpToolName": "publish_performance_explain",
+      "cliExample": "supersuite action publish performance-explain '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"instruction\":\"Explain measured changes without causal overclaiming.\",\"evidenceIds\":[\"00000000-0000-4000-8000-000000000101\"],\"idempotencyKey\":\"publish.performance-explain.sample-0001\"}'",
+      "risk": "moderate",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_performance_explain",
+      "productMcpToolName": "signaldeck_performance_explain",
+      "productCliExample": "signaldeck action performance-explain '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"instruction\":\"Explain measured changes without causal overclaiming.\",\"evidenceIds\":[\"00000000-0000-4000-8000-000000000101\"],\"idempotencyKey\":\"publish.performance-explain.sample-0001\"}'"
+    },
+    {
+      "id": "campaign-export",
+      "moduleId": "publish",
+      "title": "Export campaign ledger",
+      "description": "Create a private export of briefs, approvals, exact copy, deliveries, and metric clocks.",
+      "operation": "command",
+      "recordType": "export-job",
+      "requiredFields": [
+        "campaignId",
+        "format",
+        "idempotencyKey"
+      ],
+      "engine": "core",
+      "inputSchema": {
+        "type": "object",
+        "required": [
+          "campaignId",
+          "format",
+          "idempotencyKey"
+        ],
+        "properties": {
+          "campaignId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "format": {
+            "enum": [
+              "canonical-json",
+              "csv"
+            ]
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9._:-]{16,200}$"
+          }
+        },
+        "additionalProperties": false
+      },
+      "exampleInput": {
+        "campaignId": "00000000-0000-4000-8000-000000000100",
+        "format": "canonical-json",
+        "idempotencyKey": "publish.campaign-export.sample-0001"
+      },
+      "requiredScope": "write",
+      "mcpToolName": "publish_campaign_export",
+      "cliExample": "supersuite action publish campaign-export '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"format\":\"canonical-json\",\"idempotencyKey\":\"publish.campaign-export.sample-0001\"}'",
+      "risk": "low",
+      "destructive": false,
+      "externalEffect": false,
+      "idempotent": true,
+      "backendMcpToolName": "publish_campaign_export",
+      "productMcpToolName": "signaldeck_campaign_export",
+      "productCliExample": "signaldeck action campaign-export '{\"campaignId\":\"00000000-0000-4000-8000-000000000100\",\"format\":\"canonical-json\",\"idempotencyKey\":\"publish.campaign-export.sample-0001\"}'"
+    }
+  ]
+}
