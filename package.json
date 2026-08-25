@@ -1,6 +1,6 @@
 {
   "name": "@managed-oss/signaldeck",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Plan, approve, publish, and explain multi-channel campaigns from one evidence trail.",
   "type": "module",
   "license": "MIT",
