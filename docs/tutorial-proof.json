@@ -1,0 +1,169 @@
+{
+  "schema": "managed-oss-functional-tutorial.v1",
+  "product": {
+    "slug": "signaldeck",
+    "name": "SignalDeck",
+    "moduleId": "publish",
+    "version": "0.3.1",
+    "manifestSha256": "5b699083e20ad2baff05c78075929c79895adbf57f883767953d3d47f68bced8"
+  },
+  "backend": {
+    "release": "v0.4.4",
+    "commit": "148abce99b91d8b9fdc8aa41c3f0eba283796db4"
+  },
+  "testedAt": "2026-08-25T22:03:29.542Z",
+  "browser": {
+    "engine": "Chromium",
+    "version": "151.0.7922.174",
+    "viewport": {
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "functionalProof": {
+    "action": {
+      "id": "campaign-draft",
+      "title": "Create campaign brief",
+      "httpStatus": 200
+    },
+    "record": {
+      "id": "14186c53-139e-41e5-93a5-a7adaeeda051",
+      "recordType": "campaign",
+      "title": "SignalDeck tutorial workspace",
+      "state": "draft"
+    },
+    "detail": {
+      "httpStatus": 200,
+      "matched": true
+    },
+    "assertions": [
+      "browser-authenticated-real-backend",
+      "guided-form-submitted",
+      "action-http-200",
+      "durable-record-returned",
+      "record-detail-http-200",
+      "exact-record-reopened-in-ui"
+    ]
+  },
+  "timeline": [
+    {
+      "stepId": "overview",
+      "observedLabel": "Meet SignalDeck",
+      "observedFact": "Open the real SignalDeck workspace and identify its core workflow.",
+      "startMs": 0,
+      "endMs": 2250
+    },
+    {
+      "stepId": "connect",
+      "observedLabel": "Connect the workspace",
+      "observedFact": "Authenticate this browser to the isolated shared backend and load durable records.",
+      "startMs": 2250,
+      "endMs": 5375
+    },
+    {
+      "stepId": "configure",
+      "observedLabel": "Create campaign brief",
+      "observedFact": "Complete the guided, contract-validated form for the product's primary workflow.",
+      "startMs": 5375,
+      "endMs": 8000
+    },
+    {
+      "stepId": "execute",
+      "observedLabel": "Run the real workflow",
+      "observedFact": "Submit the action to the shared backend and require a successful durable result.",
+      "startMs": 8000,
+      "endMs": 10375
+    },
+    {
+      "stepId": "inspect",
+      "observedLabel": "Inspect the saved record",
+      "observedFact": "Search the product record view and reopen the exact record returned by the workflow.",
+      "startMs": 10375,
+      "endMs": 17000
+    }
+  ],
+  "explanation": {
+    "title": "Creating a Campaign Brief in SignalDeck",
+    "summary": "Connect to your SignalDeck workspace, configure the campaign brief inputs, execute the action, and inspect the resulting draft record.",
+    "cues": [
+      {
+        "stepId": "overview",
+        "startMs": 0,
+        "endMs": 2250,
+        "label": "Explore SignalDeck workspace",
+        "subtitle": "View the SignalDeck publish workspace and available typed operations."
+      },
+      {
+        "stepId": "connect",
+        "startMs": 2250,
+        "endMs": 5375,
+        "label": "Connect workspace",
+        "subtitle": "Connect the workspace to link with the backend service."
+      },
+      {
+        "stepId": "configure",
+        "startMs": 5375,
+        "endMs": 8000,
+        "label": "Configure campaign brief",
+        "subtitle": "Fill in the required goal, audience, channel IDs, and idempotency key."
+      },
+      {
+        "stepId": "execute",
+        "startMs": 8000,
+        "endMs": 10375,
+        "label": "Run workflow",
+        "subtitle": "Execute the campaign brief workflow to create the record."
+      },
+      {
+        "stepId": "inspect",
+        "startMs": 10375,
+        "endMs": 17000,
+        "label": "Inspect campaign record",
+        "subtitle": "Review the newly created draft campaign record in the durable record viewer."
+      }
+    ],
+    "generation": {
+      "provider": "OpenRouter",
+      "model": "google/gemini-3.7-flash",
+      "requestedModel": "google/gemini-3.7-flash",
+      "responseModel": "google/gemini-3.7-flash",
+      "responseId": "gen-1787695404-CX0Vfe7dDftWIdWvVGER",
+      "responseCreatedAt": "2026-08-25T22:03:24.000Z",
+      "input": {
+        "rawVideoSha256": "7d48514f92ce0f671b447054ebef81a2026b8125cbe2179cd6c36861b66602bb",
+        "workflowFactsSha256": "dbff5b0a09942ef78764b1c17240e037775815c3b78697fce57db6c3057e4b77"
+      },
+      "usage": {
+        "promptTokens": 1557,
+        "completionTokens": 951,
+        "totalTokens": 2508
+      }
+    }
+  },
+  "video": {
+    "raw": {
+      "sha256": "7d48514f92ce0f671b447054ebef81a2026b8125cbe2179cd6c36861b66602bb",
+      "codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "durationSeconds": 17,
+      "sizeBytes": 347204
+    },
+    "final": {
+      "file": "docs/tutorial.mp4",
+      "sha256": "1f55d66631892edf27f698097b4726c79fc735de8efd2d0c07145fec47548899",
+      "codec": "h264",
+      "width": 1280,
+      "height": 720,
+      "durationSeconds": 17,
+      "sizeBytes": 352406
+    },
+    "subtitles": {
+      "file": "docs/tutorial.srt",
+      "sha256": "2a92a63e2bf8975be253828c3af49ed9aeedfc84ce749fbbab2d0672bf94bd30",
+      "format": "SubRip"
+    },
+    "overlaysBurnedIn": true,
+    "silent": true
+  }
+}

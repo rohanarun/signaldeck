@@ -1,0 +1,19 @@
+1
+00:00:00,000 --> 00:00:02,250
+View the SignalDeck publish workspace and available typed operations.
+
+2
+00:00:02,250 --> 00:00:05,375
+Connect the workspace to link with the backend service.
+
+3
+00:00:05,375 --> 00:00:08,000
+Fill in the required goal, audience, channel IDs, and idempotency key.
+
+4
+00:00:08,000 --> 00:00:10,375
+Execute the campaign brief workflow to create the record.
+
+5
+00:00:10,375 --> 00:00:17,000
+Review the newly created draft campaign record in the durable record viewer.
