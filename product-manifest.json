@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "release": {
-    "productVersion": "0.1.0",
-    "backendRelease": "v0.4.0",
-    "backendCommit": "4ff94afc860109e683c56c3acffedb8a6c233e03",
-    "backendSourceSnapshotSha256": "df03dff119034858ec0a25b1171226ff3539d015318c15b5a2359eab49118dcf",
+    "productVersion": "0.2.0",
+    "backendRelease": "v0.4.2",
+    "backendCommit": "20c4a704c77cbbbff1da995e1d91b937625a8aa4",
+    "backendSourceSnapshotSha256": "d0b7b1079d4924eb7369c788a979a707d45bb63470290e6ac33ee5662d78f69f",
     "generatedAt": "2026-08-24T00:00:00.000Z",
     "generator": "managed-oss-cloud/scripts/generate-product-repositories.mjs"
   },
@@ -30,7 +30,13 @@
       "post",
       "campaign",
       "channel",
-      "media"
+      "media",
+      "channel-binding",
+      "ai-request-audit",
+      "scheduled-post",
+      "publication-delivery",
+      "metric-observation",
+      "export-job"
     ],
     "aiCapabilities": [
       "adapt by channel",
@@ -48,6 +54,187 @@
   "cleanRoom": {
     "statement": "Original clean-room implementation of the social publishing software category, designed and written independently.",
     "sourceBoundary": "Public category behavior informed requirements; implementation and product identity are original."
+  },
+  "experience": {
+    "releaseBoundary": "Complete for every typed action declared by this product manifest; it does not claim feature parity with unrelated third-party products.",
+    "headline": "Plan",
+    "primaryActionId": "campaign-draft",
+    "quickActionIds": [
+      "channel-binding-preview",
+      "campaign-draft",
+      "campaign-approve",
+      "post-schedule"
+    ],
+    "navigation": [
+      "Overview",
+      "Records",
+      "Workflows",
+      "AI assistance",
+      "Settings"
+    ],
+    "workflowGroups": [
+      {
+        "name": "Create and capture",
+        "actionIds": [
+          "campaign-draft",
+          "campaign-export"
+        ]
+      },
+      {
+        "name": "Operate and update",
+        "actionIds": [
+          "metrics-import"
+        ]
+      },
+      {
+        "name": "Review and approve",
+        "actionIds": [
+          "channel-binding-preview",
+          "campaign-approve",
+          "post-schedule",
+          "publication-dispatch"
+        ]
+      },
+      {
+        "name": "AI assistance",
+        "actionIds": [
+          "content-variants-propose",
+          "performance-explain"
+        ]
+      }
+    ],
+    "metrics": [
+      {
+        "label": "Typed actions",
+        "value": 9
+      },
+      {
+        "label": "Record types",
+        "value": 10
+      },
+      {
+        "label": "AI workflows",
+        "value": 2
+      },
+      {
+        "label": "Review gates",
+        "value": 4
+      }
+    ],
+    "sampleRecords": [
+      {
+        "id": "demo-publish-01",
+        "moduleId": "publish",
+        "recordType": "post",
+        "title": "Post Launch",
+        "state": "active",
+        "createdAt": "2026-08-18T13:30:00.000Z",
+        "updatedAt": "2026-08-25T13:15:00.000Z",
+        "data": {
+          "owner": "Operations",
+          "evidenceStatus": "verified",
+          "nextStep": "Preview channel binding"
+        }
+      },
+      {
+        "id": "demo-publish-02",
+        "moduleId": "publish",
+        "recordType": "campaign",
+        "title": "Campaign Operations",
+        "state": "in review",
+        "createdAt": "2026-08-19T13:30:00.000Z",
+        "updatedAt": "2026-08-25T12:15:00.000Z",
+        "data": {
+          "owner": "Product",
+          "evidenceStatus": "current",
+          "nextStep": "Create campaign brief"
+        }
+      },
+      {
+        "id": "demo-publish-03",
+        "moduleId": "publish",
+        "recordType": "channel",
+        "title": "Channel Evidence",
+        "state": "ready",
+        "createdAt": "2026-08-20T13:30:00.000Z",
+        "updatedAt": "2026-08-25T11:15:00.000Z",
+        "data": {
+          "owner": "Operations",
+          "evidenceStatus": "current",
+          "nextStep": "Propose cited content variants"
+        }
+      },
+      {
+        "id": "demo-publish-04",
+        "moduleId": "publish",
+        "recordType": "media",
+        "title": "Media Review",
+        "state": "scheduled",
+        "createdAt": "2026-08-21T13:30:00.000Z",
+        "updatedAt": "2026-08-25T10:15:00.000Z",
+        "data": {
+          "owner": "Product",
+          "evidenceStatus": "verified",
+          "nextStep": "Approve campaign snapshot"
+        }
+      },
+      {
+        "id": "demo-publish-05",
+        "moduleId": "publish",
+        "recordType": "channel-binding",
+        "title": "Channel Binding Pilot",
+        "state": "draft",
+        "createdAt": "2026-08-22T13:30:00.000Z",
+        "updatedAt": "2026-08-25T09:15:00.000Z",
+        "data": {
+          "owner": "Operations",
+          "evidenceStatus": "current",
+          "nextStep": "Schedule approved post"
+        }
+      },
+      {
+        "id": "demo-publish-06",
+        "moduleId": "publish",
+        "recordType": "ai-request-audit",
+        "title": "Ai Request Audit Archive",
+        "state": "complete",
+        "createdAt": "2026-08-23T13:30:00.000Z",
+        "updatedAt": "2026-08-25T08:15:00.000Z",
+        "data": {
+          "owner": "Product",
+          "evidenceStatus": "current",
+          "nextStep": "Dispatch scheduled publication"
+        }
+      },
+      {
+        "id": "demo-publish-07",
+        "moduleId": "publish",
+        "recordType": "scheduled-post",
+        "title": "Scheduled Post Launch",
+        "state": "active",
+        "createdAt": "2026-08-24T13:30:00.000Z",
+        "updatedAt": "2026-08-25T07:15:00.000Z",
+        "data": {
+          "owner": "Operations",
+          "evidenceStatus": "verified",
+          "nextStep": "Import channel metrics"
+        }
+      },
+      {
+        "id": "demo-publish-08",
+        "moduleId": "publish",
+        "recordType": "publication-delivery",
+        "title": "Publication Delivery Operations",
+        "state": "in review",
+        "createdAt": "2026-08-25T13:30:00.000Z",
+        "updatedAt": "2026-08-25T06:15:00.000Z",
+        "data": {
+          "owner": "Product",
+          "evidenceStatus": "current",
+          "nextStep": "Explain campaign performance"
+        }
+      }
+    ]
   },
   "actions": [
     {
